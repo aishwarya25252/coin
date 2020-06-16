@@ -12,4 +12,5 @@ class clus :
     def __init__(self,parent):
         self.parent=parent
         self.labels=[]
+        self.index=None
         pass
