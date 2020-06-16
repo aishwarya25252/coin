@@ -4,34 +4,35 @@ import pandas as pd
 from Kmeans import *
 
 
-def cluster (data , k) :
-    index=data.index
-    columns=data.columns
-    matrix=data.to_numpy()
-    centroids=np.random.randn(k,len(index))
-    assignedCluster, centroids =kmeans(matrix.T, centroids)
-    l=len(columns)
-    m=np.zeros(l,l)
+def cluster(data,k,mapindex,tempindex) :
+    index = data.index
+    columns = data.columns
+    matrix = data.to_numpy()
+    centroids = np.random.randn(k, len(index))
+    assignedCluster, centroids = kmeans(matrix.T, centroids)
+    l = len(columns)
+    m = np.zeros(l, l)
     for i in range(l):
         for j in range(l):
-            if assignedCluster[i]==assignedCluster[j]:
-                m[i][j]=1
-    d=pd.DataFrame(m,columns=columns,index=columns)
-    return d
+            if assignedCluster[i] == assignedCluster[j]:
+                m[mapindex[tempindex[i]]][mapindex[tempindex[j]]] = 1
+    return m
 
 
-def resample(data, gset):
-    g = set(gset)
-    ag = set(data.index)
-    ni = list(g.intersection(ag))
-    c = list(data.columns)
-    random.shuffle(c)
-    d = data.loc[ni, c]
-    return d
+def resample(data):
+    q = list(data.columns)
+    random.shuffle(q)
+    d=data.loc[data.index,q]
+    tempindex=dict(zip(list(range(len(q))),q))
+    return d,tempindex
 
 
 def consensous(M):
-    pass
+    consenmatrix=np.zeros(M[0].shape)
+    for m in M :
+        consenmatrix=np.add(consenmatrix,m)
+    consenmatrix=consenmatrix/len(M)
+    return consenmatrix
 
 def partition(data, bK, mK):
     pass
@@ -44,13 +45,18 @@ def bestK(cM, K):
     pass
 
 
+def process(data, gset):
+    pass
+
+
 def clustering(data, H, K, gset):
     cM = []
+    newdata,mapindex=process(data,gset)
     for k in K:
         M = []
         for h in range(H):
-            d = resample(data, gset)
-            m = cluster(d, k)
+            d,tempindex = resample(newdata)
+            m = cluster(d,k,mapindex,tempindex)
             M.append(m)
         cM.append(consensous(M))
     bK, mK = bestK(cM, K)
