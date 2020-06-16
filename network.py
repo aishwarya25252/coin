@@ -1,22 +1,23 @@
 from Consensus import *
 
 
-def pairing(dataset1, dataset2):
-    pass
-
-
-def edgeassign(clusterpairs):
+def pairing(clustermatrix, clustermap):
+    
     pass
 
 
 def network(datasets,H,K,gset):
-    clusterset=[]
+    datalist=[]
+    clustermap={}
+    f=0
     for i in range(len(datasets)):
-        clusterset.append(clustering(datasets[i], H, K, gset))
-    clusterpairs=[]
-    for i in range(len(clusterset)-1):
-        for j in range(i+1,len(clusterset)):
-            clusterpairs.append(pairing(clusterset[i],clusterset[j]))
-    for i in range(len(clusterpairs)):
-        edgeassign(clusterpairs)
+        datalist.append(clustering(datasets[i], H, K, gset))
+    for i in range(len(datalist)):
+        for j in range(len(datalist[i].clusters)):
+            clustermap[f]=datalist[i].clusters[j]
+            f=f+1
+    clustermatrix=np.zeros([f,f])
+    pairing(clustermatrix,clustermap)
+
+
     return clusterpairs

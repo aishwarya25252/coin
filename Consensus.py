@@ -43,7 +43,7 @@ def partition(data,newdata,k):
     assignedCluster, centroids = kmeans(matrix.T, centroids)
     d=dat(data,newdata,k)
     for i in range(assignedCluster):
-        d.clusters[assignedCluster[i]].append(index[i])
+        d.clusters[assignedCluster[i]].labels.append(index[i])
     return d
 
 
