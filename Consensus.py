@@ -66,8 +66,12 @@ def bestK(cM, K):
 
 
 def process(data, gset):
-    pass
-
+    glabels=data.index
+    n = set(gset) & set(glabels)
+    d=data.loc[n]
+    q = list(d.columns)
+    mapindex = dict(zip(q,list(range(len(q)))))
+    return d,mapindex
 
 def clustering(data, H, K, gset):
     cM = []
