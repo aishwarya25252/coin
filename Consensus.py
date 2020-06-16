@@ -2,7 +2,7 @@ import random
 import numpy as np
 import pandas as pd
 from Kmeans import *
-
+from Structures import *
 
 def cluster(data, k, mapindex, tempindex):
     index = data.index
@@ -35,8 +35,17 @@ def consensous(M):
     return consenmatrix
 
 
-def partition(data, bK, mK):
-    pass
+def partition(data,newdata,k):
+    index = newdata.index
+    columns = newdata.columns
+    matrix = newdata.to_numpy()
+    centroids = np.random.randn(k, len(index))
+    assignedCluster, centroids = kmeans(matrix.T, centroids)
+    d=dat(data,newdata,k)
+    for i in range(assignedCluster):
+        d.clusters[assignedCluster[i]].append(index[i])
+    return d
+
 
 
 def PAC(m):
@@ -84,5 +93,5 @@ def clustering(data, H, K, gset):
             M.append(m)
         cM.append(consensous(M))
     bK, mK = bestK(cM, K)
-    p = partition(data, bK, mK)
+    p = partition(data,newdata,bK)
     return p
