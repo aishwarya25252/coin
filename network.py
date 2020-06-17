@@ -1,21 +1,23 @@
 from Consensus import *
 
 
+
+
+
 def findparmcalculate(data1,data2):
 
+
     pass
+
+def comparesetmaker(data1,data2):
+    compareset=list(set(data1.index)&set(data2.index))
+    return compareset
 
 
 def pairing(nnfractionmatrix,meancorelationmatrix,clustermatrix, clustermap, datalist):
     for i in range(len(datalist)-1):
         for j in range(i+1,len(datalist)):
-            m,n,nnf,mpc=findparmcalculate(datalist[i],datalist[j])
-            clustermatrix[m][n]=1
-            clustermatrix[n][m]=1
-            nnfractionmatrix[m][n]=nnf
-            nnfractionmatrix[n][m]=nnf
-            meancorelationmatrix[m][n]=mpc
-            meancorelationmatrix[n][m]=mpc
+            compareset = comparesetmaker(datalist[i].data, datalist[j].data)
             pass
 
 
