@@ -1,25 +1,29 @@
+import numpy as np
 def distance(x, y):
     return (((x - y) ** 2).sum()) ** 0.5
 
 
 def cencal(data, centroids, assignedCluster, live):
-    templive=None
+    templive = None
     for i in live:
         count = 0
-        total = 0
+        total = np.zeros(centroids.shape[1])
         previousValue = centroids[i]
         for j, v in assignedCluster.items():
             if v == i:
                 total = total + data[j]
                 count = count + 1
+        if count == 0:
+            count = 1
         newValue = total / count
-        if (newValue != 0).all() | (newValue != previousValue).all():
+        if (newValue != 0).all() | (newValue != previousValue).all():  # problem...
             templive = [l for l in live if l != i]
             centroids[i] = newValue
     return centroids, templive
 
+
 def sse(data, assignedCluster, centroid, index):
-    sums = 0
+    sums = np.zeros(centroid.shape)
     count = 0
     for i, v in assignedCluster.items():
         if v == index:
@@ -28,7 +32,9 @@ def sse(data, assignedCluster, centroid, index):
     return (count * sums.sum() * 1.0) / (count - 1)
 
 
-def kmeans(data, centroids,zubbbi):
+def kmeans(data, centroids):
+    data=data.copy()
+    centroids=centroids.copy()
     cases = data.shape[0]
     cases = cases - 1
     k = centroids.shape[0] - 1
@@ -45,7 +51,10 @@ def kmeans(data, centroids,zubbbi):
         assignedCluster[i] = cluster
     centroids = cencal(data, centroids, assignedCluster, live)[0]
     assignedClusterTemp = assignedCluster.copy()
-    while live != []:
+    while True:
+        print(live)
+        if(live==None):
+            break
         for i in live:
             sse1 = sse(data, assignedCluster, centroids[i], i)
             clusterTemp = i
@@ -61,7 +70,7 @@ def kmeans(data, centroids,zubbbi):
                 assignedClusterTemp[j] = clusterTemp
         assignedCluster = assignedClusterTemp.copy()
         centroids, live = cencal(data, centroids, assignedCluster, live)
-        #print(live)
-        #print(zubbbi)
-        #zubbbi=zubbbi+1
+        # print(live)
+        # print(zubbbi)
+        # zubbbi=zubbbi+1
     return assignedCluster, centroids
