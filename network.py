@@ -15,11 +15,11 @@ def pearsoncorelation(compareset, centroidmatrix, cluster):
     for j in range(centroidmatrix.shape[0]):
         assign[j] = 0
         avg[j] = 0
-    for i in range(matrix.shape[0]):
-        corrcoef=np.corrcoef(matrix[i],centroidmatrix[0])[1][0]
+    for i in range(matrix.shape[1]):
+        corrcoef=np.corrcoef(matrix.T[i],centroidmatrix[0])[1][0]
         p=0
         for j in range(centroidmatrix.shape[0]):
-            temp=np.corrcoef(matrix[i],centroidmatrix[j])[1][0]
+            temp=np.corrcoef(matrix.T[i],centroidmatrix[j])[1][0]
             if temp>corrcoef :
                 p=j
                 corrcoef=temp
@@ -31,6 +31,8 @@ def pearsoncorelation(compareset, centroidmatrix, cluster):
     for j in range(centroidmatrix.shape[0]):
         if assign[j]>v :
             n=j
+    if assign[n]==0:
+        return n,0.0
     nmean=avg[n]/assign[n]
     return n,nmean
 
@@ -50,16 +52,13 @@ def pairing(meancorelationmatrix,clustermatrix, clustermap, datalist):
                 meancorelationmatrix[n][m]=avg
     return
 
-def edgforming():
-
-    pass
 
 def network(datasets,H,K,gset):
     datalist=[]
     clustermap={}
     f=0
     for i in range(len(datasets)):
-        datalist.append(clustering(datasets[i], H, K, gset))
+        datalist.append(clustering(datasets[i].T, H, K, gset))
     for i in range(len(datalist)):
         for j in range(len(datalist[i].clusters)):
             clustermap[f]=datalist[i].clusters[j]

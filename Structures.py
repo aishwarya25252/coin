@@ -1,3 +1,4 @@
+import numpy as np
 class dat :
     def __init__(self,data,newdata,k):
         self.data=data
@@ -15,9 +16,10 @@ class clus :
         self.index=None
         pass
     def centroid(self,genes):
-        d=self.parent.newdata
+        d=self.parent.data
         i=list(set(genes)&set(d.index))
         d=d.loc[i,self.labels]
         m=d.to_numpy()
-        m.mean(axis=1)
+        if d.empty==True:
+            return np.zeros(m.shape[0])
         return m.mean(axis=1)

@@ -8,7 +8,8 @@ def cluster(data, k, mapindex, tempindex):
     index = data.index
     columns = data.columns
     matrix = data.to_numpy()
-    centroids = np.random.randn(k, len(index))
+    centroids = np.random.randint(1000, 10000, size=(k, len(index)))  # hard coded
+    centroids = centroids / 1000
     assignedCluster, centroids = kmeans(matrix.T, centroids)
     l=len(columns)
     m = np.zeros([l,l])
@@ -39,7 +40,8 @@ def partition(data,newdata,k):
     index = newdata.index
     columns = newdata.columns
     matrix = newdata.to_numpy()
-    centroids = np.random.randn(k, len(index))
+    centroids = np.random.randint(1000,10000,size=(k, len(index)))#hard coded
+    centroids=centroids/1000
     assignedCluster, centroids = kmeans(matrix.T, centroids)
     d=dat(data,newdata,k)
     for i in range(len(assignedCluster)):

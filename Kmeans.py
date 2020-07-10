@@ -52,7 +52,6 @@ def kmeans(data, centroids):
     centroids = cencal(data, centroids, assignedCluster, live)[0]
     assignedClusterTemp = assignedCluster.copy()
     while True:
-        print(live)
         if(live==None):
             break
         for i in live:
@@ -70,7 +69,4 @@ def kmeans(data, centroids):
                 assignedClusterTemp[j] = clusterTemp
         assignedCluster = assignedClusterTemp.copy()
         centroids, live = cencal(data, centroids, assignedCluster, live)
-        # print(live)
-        # print(zubbbi)
-        # zubbbi=zubbbi+1
     return assignedCluster, centroids
