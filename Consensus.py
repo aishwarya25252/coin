@@ -10,8 +10,8 @@ def cluster(data, k, mapindex, tempindex):
     matrix = data.to_numpy()
     centroids = np.random.randn(k, len(index))
     assignedCluster, centroids = kmeans(matrix.T, centroids)
-    l=data.columns
-    m = np.zeros(l,l)
+    l=len(columns)
+    m = np.zeros([l,l])
     for i in range(l):
         for j in range(l):
             if assignedCluster[i] == assignedCluster[j]:
@@ -42,8 +42,8 @@ def partition(data,newdata,k):
     centroids = np.random.randn(k, len(index))
     assignedCluster, centroids = kmeans(matrix.T, centroids)
     d=dat(data,newdata,k)
-    for i in range(assignedCluster):
-        d.clusters[assignedCluster[i]].labels.append(index[i])
+    for i in range(len(assignedCluster)):
+        d.clusters[assignedCluster[i]].labels.append(columns[i])
     return d
 
 

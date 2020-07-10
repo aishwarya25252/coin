@@ -24,12 +24,12 @@ def cencal(data, centroids, assignedCluster, live):
 
 def sse(data, assignedCluster, centroid, index):
     sums = np.zeros(centroid.shape)
-    count = 0
+    count = 1
     for i, v in assignedCluster.items():
         if v == index:
             sums = sums + (data[i] - centroid) ** 2
             count = count + 1
-    return (count * sums.sum() * 1.0) / (count - 1)
+    return (count * sums.sum() * 1.0) / (count)
 
 
 def kmeans(data, centroids):
