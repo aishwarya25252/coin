@@ -17,7 +17,7 @@ class GeneSet:
         return dataFrame
 
     def calculate(self, dataSets, g, n):
-        Ggene = self.Ggene(dataSets, g)
+        Ggene = set()#self.Ggene(dataSets, g) changed temporary
         for i in range(len(dataSets)):
             Ggene = Ggene.union(self.Ngene(dataSets[i], n))
         return Ggene
@@ -29,7 +29,7 @@ class GeneSet:
     def Ggene(self, dataSets, g):
         initialSet = set()
         for i in dataSets:
-            initialSet.union(set(i.index))
+            initialSet=initialSet.union(set(i.index))
         initialSet = list(initialSet)
         data = self.pd.DataFrame(index=initialSet)
         for i in range(len(dataSets)):

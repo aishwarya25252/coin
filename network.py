@@ -40,6 +40,17 @@ def pearsoncorelation(compareset, centroidmatrix, cluster):
 def pairing(meancorelationmatrix,clustermatrix, clustermap, datalist):
     for i in range(len(datalist)-1):
         for j in range(i+1,len(datalist)):
+            compareset = comparesetmaker(datalist[j].data, datalist[i].data)
+            centroidmatrix = np.zeros([len(datalist[j].clusters), len(compareset)])
+            for a in range(len(datalist[j].clusters)):
+                centroidmatrix[a] = datalist[j].clusters[a].centroid(compareset)
+            for a in range(len(datalist[i].clusters)):
+                temp, avg = pearsoncorelation(compareset, centroidmatrix, datalist[i].clusters[a])
+                n = datalist[j].clusters[temp].index
+                m = datalist[i].clusters[a].index
+                clustermatrix[n][m] = 1
+                meancorelationmatrix[n][m] = avg
+            #repeat
             compareset = comparesetmaker(datalist[i].data, datalist[j].data)
             centroidmatrix=np.zeros([len(datalist[i].clusters),len(compareset)])
             for a in range(len(datalist[i].clusters)):
