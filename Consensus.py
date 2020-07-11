@@ -1,7 +1,7 @@
 import random
 import numpy as np
 import pandas as pd
-from Kmeans import *
+from KmeansTEMP import *
 from Structures import *
 
 def cluster(data, k, mapindex, tempindex):
